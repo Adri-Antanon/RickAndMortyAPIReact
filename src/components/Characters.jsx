@@ -1,46 +1,104 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useReducer } from 'react';
 
-import '../assets/styles/styles.css';
 import CharacterCard from './CharacterCard';
 
+import '../assets/styles/styles.css';
+import ArrowLeft from '../assets/images/left-arrow.svg'
+import ArrowRight from '../assets/images/right-arrow.svg'
 
-const RICK_AND_MORTY_API = 'https://rickandmortyapi.com/api/character/?page=2';
+const RICK_AND_MORTY_API = 'https://rickandmortyapi.com/api/character/';
+
+const initialState = {
+    favorites: []
+};
+
+// const favoriteReducer = (state, action) => {
+//     switch (action.type) {
+//         case 'ADD_TO_FAVORITE':
+//             return {
+//                 ...state,
+//                 favorites: [...state.favorites, action.payload]
+//             };
+//         case 'REMOVE_FROM_FAVORITES':
+//             return {
+//                 ...state,
+//                 favorites: [
+//                     ...state.favorites.filter((favorite) => favorite !== action.payload),
+//                 ],
+//             };
+//         default:
+//             return state;
+//     }
+// }
+
+const favoriteReducer = (state, action) => {
+    switch (action.type) {
+        case 'ADD_TO_FAVORITE':
+            const isExist = state.favorites.find(item => item.id === action.payload.id)
+            if (isExist) return { ...state }
+            return {
+                ...state,
+                favorites: [...state.favorites, action.payload]
+            }
+
+        case 'REMOVE_FAVORITE':
+            return {
+                ...state,
+                favorites: state.favorites.filter(items => items.id !== action.payload)
+            };
+
+        default:
+            return state;
+    }
+}
 
 const Characters = () => {
-    /**
-     * Guardamos en una constante el enlace a la API pública que utilizaremos
-     * IMPORTANTE: leer documentación https://rickandmortyapi.com/documentation
-     *  */
-
-
-
-    /**
-     * Lógica de useState
-     * constante donde internamente estructuramos los elementos que necesitamos
-     * de useState y lo iniciamos como un array/arreglo vacío
-     */
 
     const [characters, setCharacters] = useState([]);
+    // Llamo otra vez a hooks para poder ir pasando de página
+    const [page, setPage] = useState(1);
+
+    const [favorites, dispatch] = useReducer(favoriteReducer, initialState);
 
 
-    // useEffect llama a fetch, el cual obtiene la informacion de la api 
+    // useEffect llama a fetch, el cual obtiene la informacion de la api, uso templateLiterals para pasar de página
     useEffect(() => {
-        fetch(RICK_AND_MORTY_API)
+        fetch(`${RICK_AND_MORTY_API}?page=${page}`)
             .then(response => response.json())
             .then(data => setCharacters(data.results))
-    }, []);
+    }, [page]);
+
+    const handleClick = (favorite) => {
+        dispatch({ type: 'ADD_TO_FAVORITE', payload: favorite })
+    }
+
+    const handleClickRemove = (id) => {
+        dispatch({ type: 'REMOVE_FAVORITE', payload: id })
+    }
 
     return (
 
-        // Iteramos por cada elemento
-        <div className="Characters">
-            {characters.map((character) => (
+        <div>
+            {favorites.favorites.length > 0 &&
                 <div>
-                    <CharacterCard props={{ ...character }} key={character.id} />
-                    <button type="button" > {character.id} </button>
+                    <h2>Favoritos </h2>
+                    <div className="Characters">
+                        {favorites.favorites.map(favorite =>
+                            <CharacterCard {...favorite} isFavorite={true} handleClickRemove={handleClickRemove} />
+                        )}
+                    </div>
                 </div>
+            }
+            {page > 1 && <button style={{ marginTop: 100 }} type="button" onClick={() => setPage(page - 1)} > <img style={{ width: 75, height: 75 }} src={ArrowLeft} alt="arrow Left" /> </button>}
+            {page < 33 && <button style={{ marginTop: 100 }} type="button" onClick={() => setPage(page + 1)} > <img style={{ width: 75, height: 75 }} src={ArrowRight} alt="arrow right" /> </button>}
+            <div className="Characters" >
+                {characters.map((character) => (
+                    <div>
+                        <CharacterCard {...character} key={character.id} handleClick={handleClick} />
+                    </div>
+                ))}
+            </div>
 
-            ))}
         </div>
     );
 }
