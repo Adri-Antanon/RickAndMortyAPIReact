@@ -21,16 +21,10 @@ const CharacterCard = (props) => {
                     :
                     <button
                         type="button"
-                        onClick={() => handleClickRemove({ id })}
+                        onClick={() => handleClickRemove(id)}
                     >
                         Remove
                 </button>}
-                {/* <button
-                    type="button"
-                    onClick={() => handleClick({ id, name, status, species, gender, image })}
-                >
-                    Add
-                </button> */}
             </div>
         </div>
     );
