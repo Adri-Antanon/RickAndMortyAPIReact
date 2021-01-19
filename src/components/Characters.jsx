@@ -1,24 +1,24 @@
-import { useEffect, useState, useReducer } from 'react';
+import { useEffect, useState, useReducer, useMemo, useRef, useCallback } from 'react';
 
 import CharacterCard from './CharacterCard';
+import SearchCharacters from './SearchCharacters';
 import { favoriteReducer, initialState } from '../helpers';
 
 import '../assets/styles/styles.css';
 import ArrowLeft from '../assets/images/left-arrow.svg'
 import ArrowRight from '../assets/images/right-arrow.svg'
+import FavoriteCharacters from './FavoriteCharacters';
 
 const RICK_AND_MORTY_API = 'https://rickandmortyapi.com/api/character/';
 
 const Characters = () => {
-
     const [characters, setCharacters] = useState([]);
-    // Llamo otra vez a hooks para poder ir pasando de página
     const [page, setPage] = useState(1);
-
     const [favorites, dispatch] = useReducer(favoriteReducer, initialState);
+    const [search, setSearch] = useState('');
+    const searchInput = useRef(null);
 
 
-    // useEffect llama a fetch, el cual obtiene la informacion de la api, uso templateLiterals para pasar de página
     useEffect(() => {
         fetch(`${RICK_AND_MORTY_API}?page=${page}`)
             .then(response => response.json())
@@ -33,28 +33,49 @@ const Characters = () => {
         dispatch({ type: 'REMOVE_FAVORITE', payload: id })
     }
 
+    // Ahora lo hacemos con useCallback
+    // const handleSearch = () => {
+    //     setSearch(searchInput.current.value);
+    // }
+
+    const handleSearch = useCallback(() => {
+        setSearch(searchInput.current.value);
+    }, [])
+    // El segundo parámetro hace referencia al elemento que va a escuchar, y solo va a hacer un cambio de la referencia cuando el elemento cambie
+
+
+    // Esta función sirve para filtrar los personajes, se puede realizar más optima con useMemo
+    // const filteredUsers = characters.filter((user) => {
+    //     return user.name.toLowerCase().includes(search.toLowerCase());
+    // })
+
+    const filteredUsers = useMemo(() =>
+        characters.filter((user) => {
+            return user.name.toLowerCase().includes(search.toLowerCase());
+        }),
+        [characters, search]
+    );
+    // Con esto lo que hace es escuchar los elementos que cambiarán, y cuando cambien los personajes o cambie search, va a recordar el valor, optimizando el uso de memoria
+
     return (
         <div>
-            {favorites.favorites.length > 0 &&
-                <div>
-                    <h2>Favoritos </h2>
-                    <div className="Characters">
-                        {favorites.favorites.map(favorite =>
-                            <CharacterCard {...favorite} isFavorite={true} handleClickRemove={handleClickRemove} />
-                        )}
-                    </div>
-                </div>
+            {favorites.favorites.length > 0 ?
+                <FavoriteCharacters favorites={favorites} handleClickRemove={handleClickRemove} />
+                :
+                <h3>No hay personajes favoritos...</h3>
             }
-            {page > 1 && <button style={{ marginTop: 100 }} type="button" onClick={() => setPage(page - 1)} > <img style={{ width: 75, height: 75 }} src={ArrowLeft} alt="arrow Left" /> </button>}
-            {page < 33 && <button style={{ marginTop: 100 }} type="button" onClick={() => setPage(page + 1)} > <img style={{ width: 75, height: 75 }} src={ArrowRight} alt="arrow right" /> </button>}
+            {page > 1 && <button type="button" onClick={() => setPage(page - 1)} > <img style={{ width: 75, height: 75 }} src={ArrowLeft} alt="arrow Left" /> </button>}
+            {page < 33 && <button type="button" onClick={() => setPage(page + 1)} > <img style={{ width: 75, height: 75 }} src={ArrowRight} alt="arrow right" /> </button>}
+
+            <SearchCharacters search={search} searchInput={searchInput} handleSearch={handleSearch} />
+
             <div className="Characters" >
-                {characters.map((character) => (
+                {filteredUsers.map((character) => (
                     <div>
                         <CharacterCard {...character} key={character.id} handleClick={handleClick} />
                     </div>
                 ))}
             </div>
-
         </div>
     );
 }
