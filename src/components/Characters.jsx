@@ -3,10 +3,9 @@ import { useEffect, useState, useReducer, useMemo, useRef, useCallback } from 'r
 import CharacterCard from './CharacterCard';
 import SearchCharacters from './SearchCharacters';
 import { favoriteReducer, initialState } from '../helpers';
+import Arrow from './Arrow';
 
 import '../assets/styles/styles.css';
-import ArrowLeft from '../assets/images/left-arrow.svg'
-import ArrowRight from '../assets/images/right-arrow.svg'
 import FavoriteCharacters from './FavoriteCharacters';
 
 const RICK_AND_MORTY_API = 'https://rickandmortyapi.com/api/character/';
@@ -64,8 +63,8 @@ const Characters = () => {
                 :
                 <h3>No hay personajes favoritos...</h3>
             }
-            {page > 1 && <button type="button" onClick={() => setPage(page - 1)} > <img style={{ width: 75, height: 75 }} src={ArrowLeft} alt="arrow Left" /> </button>}
-            {page < 33 && <button type="button" onClick={() => setPage(page + 1)} > <img style={{ width: 75, height: 75 }} src={ArrowRight} alt="arrow right" /> </button>}
+
+            <Arrow page={page} setPage={setPage} />
 
             <SearchCharacters search={search} searchInput={searchInput} handleSearch={handleSearch} />
 
