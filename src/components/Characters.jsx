@@ -4,6 +4,8 @@ import CharacterCard from './CharacterCard';
 import SearchCharacters from './SearchCharacters';
 import { favoriteReducer, initialState } from '../helpers';
 import Arrow from './Arrow';
+import useCharacters from '../hooks/useCharacters';
+
 
 import '../assets/styles/styles.css';
 import FavoriteCharacters from './FavoriteCharacters';
@@ -11,18 +13,19 @@ import FavoriteCharacters from './FavoriteCharacters';
 const RICK_AND_MORTY_API = 'https://rickandmortyapi.com/api/character/';
 
 const Characters = () => {
-    const [characters, setCharacters] = useState([]);
     const [page, setPage] = useState(1);
     const [favorites, dispatch] = useReducer(favoriteReducer, initialState);
     const [search, setSearch] = useState('');
     const searchInput = useRef(null);
+    const characters = useCharacters(`${RICK_AND_MORTY_API}?page=${page}`) // Esto modulariza nuestro useEffect en un hook personalizado, por lo que prescindo de los dos bloques comentados abajo
 
+    // const [characters, setCharacters] = useState([]);
 
-    useEffect(() => {
-        fetch(`${RICK_AND_MORTY_API}?page=${page}`)
-            .then(response => response.json())
-            .then(data => setCharacters(data.results))
-    }, [page]);
+    // useEffect(() => {
+    //     fetch(`${RICK_AND_MORTY_API}?page=${page}`)
+    //         .then(response => response.json())
+    //         .then(data => setCharacters(data.results))
+    // }, [page]);
 
     const handleClick = (favorite) => {
         dispatch({ type: 'ADD_TO_FAVORITE', payload: favorite })
