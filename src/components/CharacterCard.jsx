@@ -3,7 +3,7 @@
 const CharacterCard = (props) => {
 
     const { id, name, status, species, gender, image, isFavorite, handleClick, handleClickRemove } = props;
-
+    console.log(origin);
     return (
         <div className="Character-card" key={id}>
             <img src={image} alt={name} />
@@ -16,14 +16,14 @@ const CharacterCard = (props) => {
                     type="button"
                     onClick={() => handleClick({ id, name, status, species, gender, image })}
                 >
-                    Add
+                    +
                 </button>
                     :
                     <button
                         type="button"
                         onClick={() => handleClickRemove(id)}
                     >
-                        Remove
+                        -
                 </button>}
             </div>
         </div>

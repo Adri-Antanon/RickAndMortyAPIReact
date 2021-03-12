@@ -1,14 +1,14 @@
-import { useEffect, useState, useReducer, useMemo, useRef, useCallback } from 'react';
+import { useState, useReducer, useMemo, useRef, useCallback } from 'react';
 
-import CharacterCard from './CharacterCard';
-import SearchCharacters from './SearchCharacters';
+import CharacterCard from '../components/CharacterCard';
+import SearchCharacters from '../components/SearchCharacters';
 import { favoriteReducer, initialState } from '../helpers';
-import Arrow from './Arrow';
+import Arrow from '../components/Arrow';
 import useCharacters from '../hooks/useCharacters';
 
 
 import '../assets/styles/styles.css';
-import FavoriteCharacters from './FavoriteCharacters';
+import FavoriteCharacters from '../components/FavoriteCharacters';
 
 const RICK_AND_MORTY_API = 'https://rickandmortyapi.com/api/character/';
 
@@ -73,8 +73,8 @@ const Characters = () => {
 
             <div className="Characters" >
                 {filteredUsers.map((character) => (
-                    <div>
-                        <CharacterCard {...character} key={character.id} handleClick={handleClick} />
+                    <div key={character.id}>
+                        <CharacterCard {...character} handleClick={handleClick} />
                     </div>
                 ))}
             </div>

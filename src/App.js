@@ -1,11 +1,11 @@
 import './App.css';
-import ShowCharacters from './components/ShowCharacters';
+import ShowCharacters from './screens/ShowCharacters';
 
 function App() {
   return (
 
     <div className="App">
-      <h1>Ejemplo de consumo de API by Adrián Antañón</h1>
+      <h1 className="header-title">Consumo de API usando React Hooks por Adrián Antañón</h1>
       <ShowCharacters />
     </div>
   );
