@@ -1,0 +1,24 @@
+{
+  "files": {
+    "main.css": "/RickAndMortyAPIReact/static/css/main.526b5e79.chunk.css",
+    "main.js": "/RickAndMortyAPIReact/static/js/main.8987b7ad.chunk.js",
+    "main.js.map": "/RickAndMortyAPIReact/static/js/main.8987b7ad.chunk.js.map",
+    "runtime-main.js": "/RickAndMortyAPIReact/static/js/runtime-main.65344387.js",
+    "runtime-main.js.map": "/RickAndMortyAPIReact/static/js/runtime-main.65344387.js.map",
+    "static/js/2.d4beec0e.chunk.js": "/RickAndMortyAPIReact/static/js/2.d4beec0e.chunk.js",
+    "static/js/2.d4beec0e.chunk.js.map": "/RickAndMortyAPIReact/static/js/2.d4beec0e.chunk.js.map",
+    "static/js/3.96f28c9b.chunk.js": "/RickAndMortyAPIReact/static/js/3.96f28c9b.chunk.js",
+    "static/js/3.96f28c9b.chunk.js.map": "/RickAndMortyAPIReact/static/js/3.96f28c9b.chunk.js.map",
+    "index.html": "/RickAndMortyAPIReact/index.html",
+    "static/css/main.526b5e79.chunk.css.map": "/RickAndMortyAPIReact/static/css/main.526b5e79.chunk.css.map",
+    "static/js/2.d4beec0e.chunk.js.LICENSE.txt": "/RickAndMortyAPIReact/static/js/2.d4beec0e.chunk.js.LICENSE.txt",
+    "static/media/left-arrow.8d435aeb.svg": "/RickAndMortyAPIReact/static/media/left-arrow.8d435aeb.svg",
+    "static/media/right-arrow.194ca1ae.svg": "/RickAndMortyAPIReact/static/media/right-arrow.194ca1ae.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.65344387.js",
+    "static/js/2.d4beec0e.chunk.js",
+    "static/css/main.526b5e79.chunk.css",
+    "static/js/main.8987b7ad.chunk.js"
+  ]
+}
